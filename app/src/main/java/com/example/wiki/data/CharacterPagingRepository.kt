@@ -11,20 +11,21 @@ import kotlinx.coroutines.flow.Flow
 
 interface CharacterPagingRepository {
 
-    fun fetchPagedCharacters(): Flow<PagingData<Character>>
+    fun fetchPagedCharacters(name: String): Flow<PagingData<Character>>
 
     class Base(
         private val service: CharactersService,
         private val gson: Gson,
         private val mapper: CharactersCloudMapper
     ) : CharacterPagingRepository {
-        override fun fetchPagedCharacters(): Flow<PagingData<Character>> {
+
+        override fun fetchPagedCharacters(name: String): Flow<PagingData<Character>> {
             return Pager(
                 config = PagingConfig(
                     pageSize = PAGE_SIZE,
                     enablePlaceholders = false
                 ),
-                pagingSourceFactory = { CharactersPagingSource(service, gson, mapper) }
+                pagingSourceFactory = { CharactersPagingSource(service, gson, mapper, name) }
             ).flow
         }
 

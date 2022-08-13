@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupRecyclerView()
+        setupSearchInput()
         loadData()
     }
 
@@ -53,6 +55,12 @@ class MainActivity : AppCompatActivity() {
             header = CharacterLoadStateAdapter(tryAgain, toUiFailMapper),
         )
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
+    }
+
+    private fun setupSearchInput() {
+        binding.searchEditText.addTextChangedListener { inputText ->
+            viewModel.setSearchBy(inputText.toString())
+        }
     }
 
     private fun loadData() {

@@ -12,20 +12,21 @@ import java.net.UnknownHostException
 class CharactersPagingSource(
     private val service: CharactersService,
     private val gson: Gson,
-    private val mapper: CharactersCloudMapper
+    private val mapper: CharactersCloudMapper,
+    private val name: String
 ) : PagingSource<Int, Character>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Character> = try {
         val currentPage = params.key ?: 1
-        val response: CharactersCloud = gson.fromJson(
-            service.fetchCharacters(currentPage).string(),
+        val charactersCloud: CharactersCloud = gson.fromJson(
+            service.fetchCharacters(currentPage, name).string(),
             object : TypeToken<CharactersCloud>() {}.type
         )
-        val characters = response.map(mapper)
+        val characters = charactersCloud.map(mapper)
         LoadResult.Page(
             data = characters,
             prevKey = if (currentPage == 1) null else currentPage - 1,
-            nextKey = response.getNextPage()
+            nextKey = charactersCloud.getNextPage()
         )
     } catch (e: HttpException) {
         LoadResult.Error(e)
