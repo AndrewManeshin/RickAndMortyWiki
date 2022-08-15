@@ -7,4 +7,9 @@
     <string name="no_connection_message">No connection</string>
     <string name="something_went_wrong">Something went wrong</string>
     <string name="search_by">Search by name</string>
+
+    <string name="alive_status">Alive</string>
+    <string name="dead_status">Dead</string>
+    <string name="unknown_status">Unknown</string>
+    <string name="all_status">All</string>
 </resources>

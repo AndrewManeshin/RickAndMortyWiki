@@ -9,6 +9,7 @@ interface CharactersService {
     @GET("character")
     suspend fun fetchCharacters(
         @Query("page") page: Int,
-        @Query("name") name: String
+        @Query("name") name: String,
+        @Query("status") status: String
     ): ResponseBody
 }

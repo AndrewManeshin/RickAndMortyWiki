@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface CharacterPagingRepository {
 
-    fun fetchPagedCharacters(name: String): Flow<PagingData<Character>>
+    fun fetchPagedCharacters(name: String, status: StatusName): Flow<PagingData<Character>>
 
     class Base(
         private val service: CharactersService,
@@ -19,18 +19,36 @@ interface CharacterPagingRepository {
         private val mapper: CharactersCloudMapper
     ) : CharacterPagingRepository {
 
-        override fun fetchPagedCharacters(name: String): Flow<PagingData<Character>> {
+        override fun fetchPagedCharacters(name: String, status: StatusName): Flow<PagingData<Character>> {
             return Pager(
                 config = PagingConfig(
                     pageSize = PAGE_SIZE,
                     enablePlaceholders = false
                 ),
-                pagingSourceFactory = { CharactersPagingSource(service, gson, mapper, name) }
+                pagingSourceFactory = { CharactersPagingSource(service, gson, mapper, name, status.status) }
             ).flow
         }
 
         private companion object {
             const val PAGE_SIZE = 20
         }
+    }
+}
+
+sealed class StatusName {
+
+    abstract val status: String
+
+    object Unknown : StatusName() {
+        override val status = "unknown"
+    }
+    object Alive : StatusName() {
+        override val status = "alive"
+    }
+    object Dead : StatusName() {
+        override val status = "dead"
+    }
+    object Default: StatusName() {
+        override val status = ""
     }
 }

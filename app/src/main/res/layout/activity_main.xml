@@ -7,28 +7,52 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginVertical="4dp"
-        android:hint="@string/search_by"
-        app:boxCornerRadiusTopStart="8dp"
-        app:boxCornerRadiusTopEnd="8dp"
-        app:boxCornerRadiusBottomStart="8dp"
-        app:boxCornerRadiusBottomEnd="8dp">
+        android:layout_margin="8dp"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        android:lines="1"
+        android:selectAllOnFocus="true"
+        app:iconifiedByDefault="false"
+        app:queryHint="@string/search_by"/>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/searchEditText"
-            android:layout_width="match_parent"
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radio_alive"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:imeOptions="actionDone"
-            android:inputType="text"
-            android:lines="1"
-            android:selectAllOnFocus="true" />
+            android:text="@string/alive_status"
+            android:layout_weight="1"/>
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <RadioButton
+            android:id="@+id/radio_dead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dead_status"
+            android:layout_weight="1"/>
+
+        <RadioButton
+            android:id="@+id/radio_unknown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/unknown_status"
+            android:layout_weight="1"/>
+
+        <RadioButton
+            android:id="@+id/radio_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/all_status"
+            android:layout_weight="1"/>
+
+    </RadioGroup>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -48,4 +72,5 @@
             android:layout_gravity="center"
             android:visibility="gone" />
     </FrameLayout>
+
 </LinearLayout>

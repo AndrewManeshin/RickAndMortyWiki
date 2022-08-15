@@ -13,13 +13,14 @@ class CharactersPagingSource(
     private val service: CharactersService,
     private val gson: Gson,
     private val mapper: CharactersCloudMapper,
-    private val name: String
+    private val name: String,
+    private val status: String
 ) : PagingSource<Int, Character>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Character> = try {
         val currentPage = params.key ?: 1
         val charactersCloud: CharactersCloud = gson.fromJson(
-            service.fetchCharacters(currentPage, name).string(),
+            service.fetchCharacters(currentPage, name, status).string(),
             object : TypeToken<CharactersCloud>() {}.type
         )
         val characters = charactersCloud.map(mapper)

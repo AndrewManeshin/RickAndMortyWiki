@@ -2,19 +2,19 @@ package com.example.wiki.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wiki.core.App
+import com.example.wiki.data.StatusName
 import com.example.wiki.databinding.ActivityMainBinding
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
-    private val viewModel by lazy{
+    private val viewModel by lazy {
         (application as App).mainViewModel
     }
     private val toUiFailMapper by lazy {
@@ -29,13 +29,17 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         setupRecyclerView()
-        setupSearchInput()
+
+        binding.searchView.setOnQueryTextListener(this)
+
+        setupSearchStatus()
         loadData()
     }
 
     private fun setupRecyclerView() {
-         val tryAgain = object : CharacterLoadStateAdapter.Retry {
+        val tryAgain = object : CharacterLoadStateAdapter.Retry {
             override fun tryAgain() {
                 characterAdapter.retry()
             }
@@ -57,16 +61,24 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
     }
 
-    private fun setupSearchInput() {
-        binding.searchEditText.addTextChangedListener { inputText ->
-            viewModel.setSearchBy(inputText.toString())
-        }
+    override fun onQueryTextSubmit(query: String?) = false
+
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        viewModel.setSearchName(newText ?: "")
+        return true
+    }
+
+    private fun setupSearchStatus() {
+        binding.radioAlive.setOnClickListener { viewModel.setSearchStatus(StatusName.Alive) }
+        binding.radioDead.setOnClickListener { viewModel.setSearchStatus(StatusName.Dead) }
+        binding.radioUnknown.setOnClickListener { viewModel.setSearchStatus(StatusName.Unknown) }
+        binding.radioAll.setOnClickListener { viewModel.setSearchStatus(StatusName.Default) }
     }
 
     private fun loadData() {
         lifecycleScope.launch {
             viewModel.charactersFlow.collect {
-                Log.d("AAA", "load: $it")
                 characterAdapter.submitData(it)
             }
         }
