@@ -1,6 +1,5 @@
-package com.example.wiki.presentation
+package com.example.wiki.presentation.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +9,7 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wiki.R
+import com.example.wiki.presentation.mapper.ToUiFailMapper
 
 class CharacterLoadStateAdapter(
     private val retry: Retry,
@@ -25,7 +25,7 @@ class CharacterLoadStateAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState) = when (getStateViewType(loadState)) {
         0 -> ItemViewHolder.Progress(R.layout.item_progress.makeView(parent))
-        1 -> ItemViewHolder.Error(R.layout.item_error.makeView(parent), retry, toUiFailMapper)
+        1 -> ItemViewHolder.Error(R.layout.layout_error.makeView(parent), retry, toUiFailMapper)
         else -> error("Not supported")
     }
 
@@ -49,7 +49,6 @@ class CharacterLoadStateAdapter(
 
             override fun bind(loadState: LoadState) {
                 if (loadState is LoadState.Error) {
-                    Log.e("AAA", "${loadState.error}")
                     toUiFailMapper.mapFail(loadState.error, message)
                 }
                 button.setOnClickListener {

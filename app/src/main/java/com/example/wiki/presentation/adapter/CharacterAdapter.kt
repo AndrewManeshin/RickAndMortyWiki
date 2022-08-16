@@ -1,4 +1,4 @@
-package com.example.wiki.presentation
+package com.example.wiki.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +7,8 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wiki.data.Character
 import com.example.wiki.databinding.ItemCharacterBinding
+import com.example.wiki.presentation.CharacterDiffUtilCallback
+import com.example.wiki.presentation.mapper.ToUiItemMapper
 
 class CharacterAdapter :
     PagingDataAdapter<Character, CharacterAdapter.ViewHolder>(CharacterDiffUtilCallback()) {

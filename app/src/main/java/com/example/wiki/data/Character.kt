@@ -1,7 +1,7 @@
 package com.example.wiki.data
 
 import com.example.wiki.core.Abstract
-import com.example.wiki.presentation.ToUiItemMapper
+import com.example.wiki.presentation.mapper.ToUiItemMapper
 
 data class Character(
     private val id: Int,

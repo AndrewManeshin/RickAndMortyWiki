@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
 
 
-class MainViewModel(
+class CharacterListViewModel(
     repository: CharacterPagingRepository
 ) : ViewModel() {
 

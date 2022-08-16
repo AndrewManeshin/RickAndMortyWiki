@@ -6,6 +6,7 @@ import com.example.wiki.data.ToCharacterMapper
 import com.example.wiki.data.cloud.CharactersService
 import com.example.wiki.presentation.*
 import com.example.wiki.data.cloud.CharactersCloudMapper
+import com.example.wiki.presentation.mapper.ToUiFailMapper
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -18,7 +19,7 @@ class App : Application() {
         const val BASE_URL = "https://rickandmortyapi.com/api/"
     }
 
-    lateinit var mainViewModel: MainViewModel
+    lateinit var characterListViewModel: CharacterListViewModel
     lateinit var toUiFailMapper: ToUiFailMapper
 
     override fun onCreate() {
@@ -46,9 +47,9 @@ class App : Application() {
             charactersCloudMapper
         )
 
-        mainViewModel = MainViewModel(characterRepository)
+        characterListViewModel = CharacterListViewModel(characterRepository)
 
         val resourceProvider = ResourceProvider.Base(applicationContext)
-        toUiFailMapper =ToUiFailMapper.Base(resourceProvider)
+        toUiFailMapper = ToUiFailMapper.Base(resourceProvider)
     }
 }

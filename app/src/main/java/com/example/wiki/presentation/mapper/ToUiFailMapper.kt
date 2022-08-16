@@ -1,4 +1,4 @@
-package com.example.wiki.presentation
+package com.example.wiki.presentation.mapper
 
 import android.widget.TextView
 import com.example.wiki.R
